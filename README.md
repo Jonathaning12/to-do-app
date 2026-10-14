@@ -1,16 +1,68 @@
-# React + Vite
+2026-10-14 -- Se inicializa el repo en GitHub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Lista de comando utilizados hasta ahora:
 
-Currently, two official plugins are available:
+1. Inicialización y Configuración del Proyecto
+npm create vite@latest
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Crea la estructura base del proyecto interactivo con Vite (React + JavaScript) e incluye el archivo .gitignore esencial.
 
-## React Compiler
+npm install
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Descarga e instala todas las librerías descritas en el archivo package.json generando la carpeta local node_modules/.
 
-## Expanding the ESLint configuration
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Inicia el servidor de desarrollo local para previsualizar la aplicación en el navegador.
+
+2. Vinculación con GitHub
+git init
+
+Inicializa un repositorio Git local dentro de la carpeta del proyecto.
+
+git branch -M main
+
+Renombra la rama por defecto a main (estándar actual usado por GitHub).
+
+git remote add origin <URL_DEL_REPOSITO.git>
+
+Conecta tu repositorio local en la computadora con el repositorio remoto alojado en GitHub.
+
+3. Guardado y Envío de Cambios (Workflow diario)
+git status
+
+Muestra el estado actual de tus archivos (cuáles han sido modificados, cuáles no están rastreados o cuáles están listos para commit).
+
+git add .
+
+Prepara todos los archivos nuevos y modificados de la carpeta actual para el siguiente commit (excluyendo lo especificado en .gitignore).
+
+git commit -m "mensaje"
+
+Guarda un punto de control (snapshot) del proyecto local con un mensaje explicativo sobre los cambios realizados.
+
+git push -u origin main
+
+Sube los commits de tu rama local main al repositorio remoto en GitHub por primera vez.
+
+4. Sincronización y Solución de Conflictos
+git pull origin main --rebase
+
+Descarga e integra los cambios más recientes desde GitHub ordenando tus commits locales por encima de los descargados para mantener un historial limpio.
+
+git push origin main --force
+
+Fuerza la actualización del repositorio remoto en GitHub reemplazando su historial por el contenido de tu copia local (útil para reestructuraciones iniciales).
+
+git push origin --delete master
+
+Elimina una rama remota en GitHub (en este caso, para borrar la rama master antigua que quedaba duplicada).
+
+5. Comandos útiles para tus 2 Colaboradores
+git clone <URL_DEL_REPOSITO.git>
+
+Descarga una copia completa del repositorio desde GitHub a la máquina local.
+
+git checkout -b feature/nombre-tarea
+
+Crea y se cambia a una rama de trabajo nueva e independiente para desarrollar una función sin afectar a la rama main.
