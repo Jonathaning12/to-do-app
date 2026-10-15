@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --primary: #2D2A26;
+    --secondary: #F4A261;
+    --tertiary: #8ab8a8;
+    --Neutral: #f4f8f6;
+    --font: Plus Jakarta Sans;
+}
