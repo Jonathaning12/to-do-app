@@ -1,4 +1,5 @@
 import styles from './Login.module.css'
+import { Link } from 'react-router-dom';
 
 export default function Login(){
     return (
@@ -31,19 +32,6 @@ export default function Login(){
                     <input type="email" id="email" placeholder="ejemplo@correo.com" className={styles.input} />
                 </div>
                 </div>
-
-                {/* Campo Contraseña */}
-                {/* <div className={styles.inputGroup}>
-                <label htmlFor="password" className={styles.label}>Contraseña</label>
-                <div className={styles.inputWithIcon}>
-                    <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16a1 1 0 1 0 2 0 1 1 0 0 0-2 0" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 0 1 8 0v4" />
-                    </svg>
-                    </div>
-                </div> */}
-        
                   <div className={styles.inputGroup}>
                     <div className={styles.labelRow}>
                     <label htmlFor="password" className={styles.label}>Contraseña</label>
@@ -97,6 +85,7 @@ export default function Login(){
                     <span>Apple</span>
                 </button>
                 </div>
+                <p>¿No tienes una cuenta? <Link to="/register" className={styles.link}>Regístrate</Link></p>
             </form>
             </div>
         </div>
