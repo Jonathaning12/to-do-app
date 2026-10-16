@@ -1,0 +1,132 @@
+.createNoteCard{
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-sizing: border-box;
+}
+
+.inputSection{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.iconNote{
+    font-size: 1.2rem;
+}
+
+.noteInput{
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    color: #1f2937;
+    background-color: transparent;
+}
+
+.noteInput::placeholder{
+    color: #9ca3af;
+    font-size: 400;
+}
+
+
+/* Barra de heramientas */
+
+.toolbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px dashed #f3f4f6;
+}
+
+/* Selector de colores */
+.colorSelector{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.label{
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.colorOptions{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.colorDot{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 0 0 1px #e5e7eb;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.colorDot:hover{
+    transform: scale(1.15);
+}
+
+.activeColor{
+    box-shadow: 0 0 0 2px #3b82f6;
+}
+
+/* botones a la derecha */
+.actionsGroup{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.priorityBtn{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.priorityBtn:hover{
+    background-color: #f3f4f6;
+}
+
+.addBtn{
+    background-color: #111827;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.addBtn:hover{
+    background-color: #1f2937;
+    transform: translateY(-1px);
+}
+
+.addBtn:active{
+    transform: translateY(0);
+}
