@@ -1,0 +1,152 @@
+.sidebar {
+  display: flex;
+  flex: 0 0 248px;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 28px 16px 20px;
+  background: #f7f1e8;
+  border-right: 1px solid #eee5d8;
+  color: #4b443c;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0 8px 48px;
+  color: #27231f;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  text-decoration: none;
+}
+
+.brandMark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 12px;
+  background: #c26127;
+  color: white;
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.sectionLabel {
+  margin: 0 10px 12px;
+  color: #9a8e7d;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.navList {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 11px;
+  border-radius: 10px;
+  color: #71685e;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.navLink:hover {
+  background: #eee5d8;
+  color: #302a24;
+}
+
+.navLink:focus-visible,
+.brand:focus-visible {
+  outline: 3px solid #d89b6a;
+  outline-offset: 3px;
+}
+
+.navLink svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.active,
+.active:hover {
+  background: #fffaf3;
+  color: #b45420;
+  box-shadow: 0 2px 8px rgb(84 57 32 / 6%);
+}
+
+.sidebarNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: auto 2px 0;
+  padding: 14px 12px;
+  border: 1px solid #eee2d2;
+  border-radius: 12px;
+  background: rgb(255 250 243 / 75%);
+}
+
+.noteIcon {
+  color: #c26127;
+  font-size: 1rem;
+}
+
+.sidebarNote p {
+  color: #827667;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    min-height: 0;
+    flex: 0 0 auto;
+    padding: 14px 16px;
+    border-right: 0;
+    border-bottom: 1px solid #eee5d8;
+  }
+
+  .brand {
+    margin: 0 0 14px;
+  }
+
+  .sectionLabel,
+  .sidebarNote {
+    display: none;
+  }
+
+  .navList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .navLink {
+    min-height: 38px;
+    gap: 8px;
+    padding: 0 10px;
+    font-size: 0.8rem;
+  }
+
+  .navLink svg {
+    width: 17px;
+    height: 17px;
+  }
+}

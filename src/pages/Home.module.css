@@ -124,3 +124,24 @@
 .badgeWarning .badgeDot{
     background-color: #f97316;
 }
+
+@media (max-width: 700px){
+    .homeLayout{
+        flex-direction: column;
+    }
+
+    .mainContent{
+        min-width: 0;
+        padding: 20px 18px;
+    }
+
+    .pageHeader{
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .statusBadges{
+        flex-wrap: wrap;
+    }
+}
