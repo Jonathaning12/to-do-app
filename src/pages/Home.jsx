@@ -39,12 +39,42 @@ export default function Home() {
           <CreateNote />
           
           <div className={styles.cardContainer}>
-            <Card />
-            <Card />
-            <Card />
+            <Card 
+                status="En progreso" 
+                statusType="warning"
+                bgColor="#fef3c7"
+                title="Revisar propuesta de diseño para cliente Acme"
+                tag="Trabajo"
+                time="Hoy, 18:00"
+            />
+
+            <Card 
+                status="Hecha" 
+                statusType="success"
+                bgColor="#d1fae5"
+                title="Comprar víveres semanales"
+                tasks={[
+                { id: 1, text: 'Leche de almendras tostadas', completed: true },
+                { id: 2, text: 'Frutas frescas', completed: true }
+                ]}
+                tag="VidaCotidiana"
+                time="Completada hace 2h"
+            />
+
+            <Card 
+                status="Pendiente" 
+                statusType="purple"
+                bgColor="#e0f2fe"
+                title="Ideas de fin de semana"
+                tasks={[
+                { id: 1, text: 'Paseo en bicicleta por el parque', completed: false }
+                ]}
+                tag="Ideas"
+                time="Creado ayer"
+            />
           </div>
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
