@@ -1,68 +1,67 @@
-2026-10-14 -- Se inicializa el repo en GitHub
+NoteOne- Modern Auth & Notes App
 
-### Lista de comando utilizados hasta ahora:
+Vista Previa e Interfaz
 
-1. Inicialización y Configuración del Proyecto
-npm create vite@latest
+El módulo de autenticación (Login y Registro) está diseñado siguiendo principios de diseño limpio (UI/UX estilo Canva), con una paleta de colores tenue tipo smoke, tarjetas centralizadas con sombras suaves e íconos interactivos posicionados dentro de los campos de entrada.
 
-Crea la estructura base del proyecto interactivo con Vite (React + JavaScript) e incluye el archivo .gitignore esencial.
+Características Principales
+
+Autenticación UI/UX Completa: Vistas estilizadas para Inicio de Sesión y Registro de Usuarios.
+
+Estilos Modulares: Uso estricto de CSS Modules para evitar colisiones de clases y mantener un código limpio y escalable.
+
+ Campos e Íconos Dinámicos: Inputs con íconos SVG fijos e invisibles al tipear para mejorar la usabilidad.
+
+Componentes Personalizados: Checkbox con diseño a medida (Smoke Gray) e indicadores dinámicos.
+
+ Navegación Fluida: Enrutamiento SPA sin recargas de página mediante react-router-dom.
+
+Diseño Adaptativo: Flexbox responsivo para garantizar una excelente visualización en dispositivos móviles y de escritorio.
+
+ Tecnologías Utilizadas
+
+Frontend Core: React + Vite
+
+Enrutamiento: React Router v6
+
+Estilos: CSS Modules + Vanilla CSS 3
+
+Iconografía: SVG Vectores Inline & Tabler Icons
+
+ Instalación y Configuración Local
+
+Sigue estos pasos para ejecutar el proyecto localmente en tu entorno de desarrollo:
+
+1. Clonar el repositorio
+
+git clone https://github.com/tu-usuario/notitas-app.git
+cd notitas-app
+
+
+2. Instalar dependencias
 
 npm install
 
-Descarga e instala todas las librerías descritas en el archivo package.json generando la carpeta local node_modules/.
+
+3. Iniciar el servidor de desarrollo
 
 npm run dev
 
-Inicia el servidor de desarrollo local para previsualizar la aplicación en el navegador.
 
-2. Vinculación con GitHub
-git init
+Abre tu navegador e ingresa a http://localhost:5173 para ver la aplicación en vivo.
 
-Inicializa un repositorio Git local dentro de la carpeta del proyecto.
+📁 Estructura del Proyecto
 
-git branch -M main
+to-do-app/
+├── public/              # Archivos estáticos y favicon
+├── src/
+│   ├── assets/          # Imágenes y recursos multimedia
+│   ├── components/      # Componentes reutilizables (Sidebar, Inputs, Buttons)
+│   ├── pages/           # Vistas principales (Login.jsx, Register.jsx)
+│   ├── App.jsx          # Configuración de rutas principales
+│   ├── main.jsx         # Punto de entrada con BrowserRouter
+│   └── index.css        # Estilos globales y reset
+├── package.json         # Dependencias y scripts
+└── README.md            # Documentación del proyecto
 
-Renombra la rama por defecto a main (estándar actual usado por GitHub).
 
-git remote add origin <URL_DEL_REPOSITO.git>
-
-Conecta tu repositorio local en la computadora con el repositorio remoto alojado en GitHub.
-
-3. Guardado y Envío de Cambios (Workflow diario)
-git status
-
-Muestra el estado actual de tus archivos (cuáles han sido modificados, cuáles no están rastreados o cuáles están listos para commit).
-
-git add .
-
-Prepara todos los archivos nuevos y modificados de la carpeta actual para el siguiente commit (excluyendo lo especificado en .gitignore).
-
-git commit -m "mensaje"
-
-Guarda un punto de control (snapshot) del proyecto local con un mensaje explicativo sobre los cambios realizados.
-
-git push -u origin main
-
-Sube los commits de tu rama local main al repositorio remoto en GitHub por primera vez.
-
-4. Sincronización y Solución de Conflictos
-git pull origin main --rebase
-
-Descarga e integra los cambios más recientes desde GitHub ordenando tus commits locales por encima de los descargados para mantener un historial limpio.
-
-git push origin main --force
-
-Fuerza la actualización del repositorio remoto en GitHub reemplazando su historial por el contenido de tu copia local (útil para reestructuraciones iniciales).
-
-git push origin --delete master
-
-Elimina una rama remota en GitHub (en este caso, para borrar la rama master antigua que quedaba duplicada).
-
-5. Comandos útiles para tus 2 Colaboradores
-git clone <URL_DEL_REPOSITO.git>
-
-Descarga una copia completa del repositorio desde GitHub a la máquina local.
-
-git checkout -b feature/nombre-tarea
-
-Crea y se cambia a una rama de trabajo nueva e independiente para desarrollar una función sin afectar a la rama main.
