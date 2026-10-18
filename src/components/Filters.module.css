@@ -1,0 +1,106 @@
+.filtersSection{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 12px 0px;
+}
+
+.group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sectionTitle{
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+/* Lista de etiquetas */
+
+.tagList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px; 
+  width: 100%;
+}
+
+
+.tagBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tagBtn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.tagBtn.activeTag {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+
+
+
+
+
+
+
+
+/* Paletas de colores para las etiquetas */
+.colorPalette{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.colorDot{
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 0 1px #e5e7eb;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.colorDot:hover{
+    transform: scale(1.1);
+}
+
+.activeColor{
+    box-shadow: 0 0 0 2px #3b82f6 !important;
+}

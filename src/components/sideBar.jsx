@@ -1,7 +1,7 @@
 
 import { NavLink } from 'react-router-dom';
 import styles from './SideBar.module.css';
-
+import SearchFilters from './Filters';
 const links = [
     { to: '/home', label: 'Todas las notas', icon: 'notes' },
     { to: '/work', label: 'Area de trabajo', icon: 'work' },
@@ -64,6 +64,10 @@ export default function SideBar() {
                         </li>
                     ))}
                 </ul>
+                <SearchFilters 
+                    onSelectTag={(tag) => console.log('Tag seleccionado:', tag)}
+                    onSelectColor={(color) => console.log('Color seleccionado:', color)}
+                />
             </nav>
 
             <div className={styles.sidebarNote}>
