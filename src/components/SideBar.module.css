@@ -114,6 +114,32 @@
   line-height: 1.5;
 }
 
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #4b5563;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.navItem:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+/* Estado activo cuando la ruta coincide con la página actual */
+.navItem.active {
+  background-color: #e5e7eb; /* Fondo gris/sombra de selección activa */
+  color: #111827;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
 @media (max-width: 700px) {
   .sidebar {
     min-height: 0;

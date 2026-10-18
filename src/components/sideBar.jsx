@@ -2,6 +2,7 @@
 import { NavLink } from 'react-router-dom';
 import styles from './SideBar.module.css';
 import SearchFilters from './Filters';
+
 const links = [
     { to: '/home', label: 'Todas las notas', icon: 'notes' },
     { to: '/work', label: 'Area de trabajo', icon: 'work' },
@@ -52,14 +53,14 @@ export default function SideBar() {
             <div className={styles.sectionLabel}>TABLERO</div>
             <nav>
                 <ul className={styles.navList}>
-                    {links.map(({ to, label, icon }) => (
-                        <li key={to}>
+                    {links.map((link) => (
+                        <li key={link.to}>
                             <NavLink
-                                to={to}
+                                to={link.to}
                                 className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
                             >
-                                <NavIcon name={icon} />
-                                <span>{label}</span>
+                                <NavIcon name={link.icon} />
+                                <span>{link.label}</span>
                             </NavLink>
                         </li>
                     ))}
