@@ -37,94 +37,6 @@
     width: 100%;
 }
 
-.pageHeader{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 100%;
-    margin-bottom: 8px;
-}
-
-.headerTitles{
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.badgeCategory{
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    color: #c26127;
-}
-
-.headerTitles h1{
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #111827;
-    margin: 0;
-}
-
-.headerTitles p{
-    font-size: 0.85rem;
-    color: #6b7280;
-    margin: 0;
-}
-
-/* Capsulas de estado */
-.statusBadges{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.badge{
-    display:flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
-    border-radius: 16px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.badgeDot{
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-}
-
-/* Estilo para cuando estan activas */
-.badgeActive{
-    background-color: #e8f1f8;
-    color: #111827;
-}
-
-.badgeActive .badgeDot{
-    background-color: #10b981;
-}
-
-/* Estilos para hechas */
-.badgeDone{
-    background-color: #d1fae5;
-    color: #065f46;
-}
-
-.badgeDone .badgeDot{
-    background-color: #10b981;
-}
-
-/* Estilo para cuando vence hoy  */
-
-.badgeWarning{
-    background-color: #ffedd5;
-    color: #9a3412;
-}
-
-.badgeWarning .badgeDot{
-    background-color: #f97316;
-}
-
 @media (max-width: 700px){
     .homeLayout{
         flex-direction: column;
@@ -133,15 +45,5 @@
     .mainContent{
         min-width: 0;
         padding: 20px 18px;
-    }
-
-    .pageHeader{
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 14px;
-    }
-
-    .statusBadges{
-        flex-wrap: wrap;
     }
 }

@@ -100,15 +100,21 @@
     color: #1a1a1a;
 }
 
-.profileAvatar{
+.profileBtn{
+    background: none;
+    border: 2px solid #ffffff;
+    padding: 0px;
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    overflow: hidden;
-    background-color: #e2e8f0;
     cursor: pointer;
-    border: 2px solid #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: transform 0.15s ease;
+}
+
+.profileBtn:hover{
+    transform: scale(1.05);
 }
 
 .profileAvatar svg{
@@ -116,4 +122,89 @@
     height: 85%;
     object-fit: cover;
     color: #4b5563;
+}
+
+/* Estilos Popover */
+
+.profileDropdown{
+    position: fixed;
+    border: 1px solid #e5e7eb;
+    padding: 12px;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    width: 180px;
+
+    /* posicionamiento */
+    margin: 0;
+    left: auto;
+    right: 32px;
+    top: 60px;
+
+    /* Animacion */
+    opacity: 1;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, display 0.2s allow-discrete;
+}
+
+/* Estado open */
+.profileDropdown:popover-open{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Contenido */
+.menuHeader{
+    padding:4px 8px;
+}
+
+.userName{
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.userSub{
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.divider{
+    border:none;
+    border-top: 1px solid #f3f4f6;
+    margin:8px 0;
+}
+
+.menuNav{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Enlaces */
+.menuItem{
+    display:flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.menuItem:hover{
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* Ruta activa */
+.menuItem.active{
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-weight: 600;
 }
