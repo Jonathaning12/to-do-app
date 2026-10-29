@@ -1,80 +1,96 @@
-
-import { NavLink } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import styles from './SideBar.module.css';
 import SearchFilters from './Filters';
+import BrandMark from './BrandMark';
+import Icon from './Icon';
+import { useNotes } from '../state/notesContext';
 
 const links = [
-    { to: '/home', label: 'Todas las notas', icon: 'notes' },
-    { to: '/work', label: 'Area de trabajo', icon: 'work' },
-    { to: '/live', label: 'Vida Cotidiana', icon: 'live' },
-    { to: '/calendar', label: 'Calendario', icon: 'calendar' },
-
+  { to: '/home', label: 'Todas las notas', icon: 'notes', category: null },
+  { to: '/work', label: 'Área de trabajo', icon: 'work', category: 'trabajo' },
+  { to: '/live', label: 'Vida cotidiana', icon: 'live', category: 'vida' },
+  { to: '/calendar', label: 'Calendario', icon: 'calendar', category: 'calendar' },
 ];
 
-function NavIcon({ name }) {
-    if (name === 'live') {
-        return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-        viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" 
-        strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-clover">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 10l-3.397 -3.44a2.104 2.104 0 0 1 0 -2.95a2.04 2.04 0 0 1 2.912 0l.485 .39l.485 -.39a2.04 2.04 0 0 1 2.912 0a2.104 2.104 0 0 1 0 2.95l-3.397 3.44" /><path 
-            d="M12 14l-3.397 3.44a2.104 2.104 0 0 0 0 2.95a2.04 2.04 0 0 0 2.912 0l.485 -.39l.485 .39a2.04 2.04 0 0 0 2.912 0a2.104 2.104 0 0 0 0 -2.95l-3.397 -3.44" /><path
-             d="M14 12l3.44 -3.397a2.104 2.104 0 0 1 2.95 0a2.04 2.04 0 0 1 0 2.912l-.39 .485l.39 .485a2.04 2.04 0 0 1 0 2.912a2.104 2.104 0 0 1 -2.95 0l-3.44 -3.397" /><path 
-             d="M10 12l-3.44 -3.397a2.104 2.104 0 0 0 -2.95 0a2.04 2.04 0 0 0 0 2.912l.39 .485l-.39 .485a2.04 2.04 0 0 0 0 2.912a2.104 2.104 0 0 0 2.95 0l3.44 -3.397" /></svg>;
-    }
+export default function SideBar({ open, onNavigate }) {
+  const { notes, user, setUser } = useNotes();
+  const navigate = useNavigate();
 
-    if (name === 'work') {
-        return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" 
-                className="icon icon-tabler icons-tabler-outline icon-tabler-briefcase-2">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9" />
-                <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
-                </svg>;
-    }
-    if(name === 'calendar') {
-        return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" 
-                strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-calendar"><path 
-                stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" /><path 
-                d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" />
-                </svg>;
-    }
+  const pendingBy = useMemo(() => {
+    const pending = notes.filter((n) => !n.done);
+    return {
+      all: pending.length,
+      trabajo: pending.filter((n) => n.category === 'trabajo').length,
+      vida: pending.filter((n) => n.category === 'vida').length,
+      calendar: pending.filter((n) => n.due).length,
+    };
+  }, [notes]);
 
-    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h10l4 4v11H5z" /><path d="M15 4.5v4h4M8 12h8M8 16h6" /></svg>;
-}
+  const logout = () => {
+    setUser(null);
+    onNavigate?.();
+    navigate('/login');
+  };
 
-export default function SideBar() {
-    return (
-        <aside className={styles.sidebar} aria-label="Main navigation">
-            <NavLink to="/home" className={styles.brand} aria-label="NoteOne home">
-                <span className={styles.brandMark} aria-hidden="true">N</span>
-                <span>NoteOne</span>
-            </NavLink>
+  return (
+    <aside id="app-sidebar" className={`${styles.sidebar} ${open ? styles.open : ''}`} aria-label="Navegación principal">
+      <Link to="/home" className={styles.brand} onClick={onNavigate}>
+        <BrandMark />
+        <span>NoteOne</span>
+      </Link>
 
-            <div className={styles.sectionLabel}>TABLERO</div>
-            <nav>
-                <ul className={styles.navList}>
-                    {links.map((link) => (
-                        <li key={link.to}>
-                            <NavLink
-                                to={link.to}
-                                className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
-                            >
-                                <NavIcon name={link.icon} />
-                                <span>{link.label}</span>
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul>
-                <SearchFilters 
-                    onSelectTag={(tag) => console.log('Tag seleccionado:', tag)}
-                    onSelectColor={(color) => console.log('Color seleccionado:', color)}
-                />
-            </nav>
+      <nav aria-label="Secciones">
+        <ul className={styles.navList}>
+          {links.map((link) => {
+            const count = link.category ? pendingBy[link.category] : pendingBy.all;
+            return (
+              <li key={link.to}>
+                <NavLink
+                  to={link.to}
+                  onClick={onNavigate}
+                  viewTransition
+                  className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
+                >
+                  {/* La pastilla de selección se desliza entre secciones (View Transition) */}
+                  <span className={styles.pill} aria-hidden="true" />
+                  <Icon name={link.icon} size={18} />
+                  <span className={styles.navLabel}>{link.label}</span>
+                  {count > 0 && (
+                    <span className={styles.count} aria-label={`${count} pendientes`}>
+                      {count}
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
-            <div className={styles.sidebarNote}>
-                <span className={styles.noteIcon} aria-hidden="true"></span>
-                <p>cuadrito de prueba</p>
+      <SearchFilters />
+
+      <div className={styles.account}>
+        {user ? (
+          <>
+            <span className={styles.avatar} aria-hidden="true">
+              {user.name.charAt(0).toUpperCase()}
+            </span>
+            <div className={styles.accountText}>
+              <span className={styles.accountName}>{user.name}</span>
+              <span className={styles.accountMail}>{user.email}</span>
             </div>
-        </aside>
-    );
+            <button type="button" className={styles.accountBtn} onClick={logout} aria-label="Cerrar sesión" title="Cerrar sesión">
+              <Icon name="logout" size={18} />
+            </button>
+          </>
+        ) : (
+          <Link to="/login" className={styles.signIn} onClick={onNavigate}>
+            <Icon name="login" size={18} />
+            <span>Iniciar sesión</span>
+          </Link>
+        )}
+      </div>
+    </aside>
+  );
 }

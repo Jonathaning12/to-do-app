@@ -1,75 +1,137 @@
-import { useState } from 'react';
+import { useId, useLayoutEffect, useRef, useState } from 'react';
 import styles from './CreateNote.module.css';
+import Icon from './Icon';
+import { CATEGORIES, INKS, inkById, parseQuickText } from '../state/model';
+import { useNotes } from '../state/notesContext';
 
-export default function CreateNote() {
-  const [selectedColor, setSelectedColor] = useState('yellow');
+// El compositor ya es la ficha: toma la tinta elegida mientras escribes.
+export default function CreateNote({ category = 'personal', lockCategory = false, defaultDue = null }) {
+  const { addNote } = useNotes();
+  const [text, setText] = useState('');
+  const [ink, setInk] = useState('amarillo');
+  const [cat, setCat] = useState(category);
+  const [due, setDue] = useState(defaultDue ?? '');
+  const [high, setHigh] = useState(false);
+  const textRef = useRef(null);
+  const id = useId();
+  const color = inkById(ink);
+  const canSubmit = text.trim().length > 0;
 
-  const paperColors = [
-    { id: 'yellow', color: '#fef3c7' },
-    { id: 'green', color: '#d1fae5' },
-    { id: 'pink', color: '#fce7f3' },
-    { id: 'blue', color: '#e0f2fe' },
-  ];
+  // Crece con el texto, sin barra de desplazamiento interna.
+  useLayoutEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+    el.style.height = '';
+    // Vacío no se mide: el placeholder envuelto inflaría la altura.
+    if (text) el.style.height = `${el.scrollHeight}px`;
+  }, [text]);
+
+  const submit = (e) => {
+    e?.preventDefault();
+    if (!canSubmit) {
+      textRef.current?.focus();
+      return;
+    }
+    const parsed = parseQuickText(text);
+    addNote({
+      ...parsed,
+      title: parsed.title || parsed.tasks[0]?.text || 'Nota rápida',
+      ink,
+      category: lockCategory ? category : cat,
+      due: due || null,
+      priority: high ? 'alta' : 'normal',
+    });
+    setText('');
+    setDue(defaultDue ?? '');
+    setHigh(false);
+    // La siguiente nota toma la tinta siguiente: el tablero se mantiene variado sin pensarlo.
+    setInk(INKS[(INKS.findIndex((i) => i.id === ink) + 1) % INKS.length].id);
+    textRef.current?.focus();
+  };
 
   return (
-    <div className={styles.createNoteCard}>
-      {/* 1. Área de entrada de texto */}
-      <div className={styles.inputSection}>
-        <span className={styles.iconNote}>
-            <svg xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24"
-            viewBox="0 0 24 24" 
-            fill="none" stroke="currentColor"
-            strokeWidth="1" strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className={styles.iconNote}>
-            <path stroke="none" d="M0 0h24v24H0z" 
-            fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path 
-            d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415" />
-            <path d="M16 5l3 3" />
-            </svg>
-          </span>
-        <input 
-          type="text" 
-          placeholder="Escribe una nota rápida o tarea pendiente... (Presiona Enter para pegar al tablero)" 
-          className={styles.noteInput}
-        />
-      </div>
+    <form
+      className={styles.createNoteCard}
+      style={{ '--tint': color.tint, '--dot': color.dot, '--tone': color.text }}
+      onSubmit={submit}
+      aria-label="Nueva nota rápida"
+    >
+      <label htmlFor="quick-note" className="visually-hidden">
+        Nota rápida
+      </label>
+      <textarea
+        id="quick-note"
+        ref={textRef}
+        rows={1}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) submit(e);
+          if (e.key === 'Escape') e.currentTarget.blur();
+        }}
+        placeholder="Nueva nota"
+        className={styles.noteInput}
+        aria-describedby={`${id}-hint`}
+      />
+      <p id={`${id}-hint`} className={styles.hint}>
+        <span>
+          <kbd>Enter</kbd> para guardar · <kbd>⇧ Enter</kbd> nueva línea · <b>- texto</b> crea una tarea · <b>#etiqueta</b> agrupa
+        </span>
+      </p>
 
-      {/* 2. Barra de herramientas inferior */}
       <div className={styles.toolbar}>
-        {/* Selector de textura / color de papel */}
-        <div className={styles.colorSelector}>
-          <span className={styles.label}>Tono Papel:</span>
-          <div className={styles.colorOptions}>
-            {paperColors.map((paper) => (
-              <button
-                key={paper.id}
-                type="button"
-                className={`${styles.colorDot} ${selectedColor === paper.id ? styles.activeColor : ''}`}
-                style={{ backgroundColor: paper.color }}
-                onClick={() => setSelectedColor(paper.id)}
-                aria-label={`Color ${paper.id}`}
+        <fieldset className={styles.inks}>
+          <legend className="visually-hidden">Tinta</legend>
+          {INKS.map((option) => (
+            <label key={option.id} className={styles.inkOption} title={option.label}>
+              <input
+                type="radio"
+                name={`${id}-ink`}
+                value={option.id}
+                checked={ink === option.id}
+                onChange={() => setInk(option.id)}
               />
-            ))}
-          </div>
-        </div>
+              <span style={{ background: option.dot, color: option.dot }} />
+              <span className="visually-hidden">{option.label}</span>
+            </label>
+          ))}
+        </fieldset>
 
-        {/* Opciones de prioridad y botón de acción */}
         <div className={styles.actionsGroup}>
-          <button type="button" className={styles.priorityBtn}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-              <line x1="4" y1="22" x2="4" y2="15" />
-            </svg>
-            <span>Normal</span>
+          {!lockCategory && (
+            <label className={styles.field}>
+              <span className="visually-hidden">Categoría</span>
+              <select value={cat} onChange={(e) => setCat(e.target.value)}>
+                {CATEGORIES.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+
+          <label className={styles.field}>
+            <Icon name="calendar" size={16} />
+            <span className="visually-hidden">Fecha límite</span>
+            <input type="date" value={due} onChange={(e) => setDue(e.target.value)} />
+          </label>
+
+          <button
+            type="button"
+            className={`${styles.priorityBtn} ${high ? styles.on : ''}`}
+            aria-pressed={high}
+            onClick={() => setHigh((v) => !v)}
+          >
+            <Icon name="flag" size={16} />
+            <span>{high ? 'Prioridad alta' : 'Prioridad'}</span>
           </button>
 
-          <button type="button" className={styles.addBtn}>
-            <span>+ Fijar Nota</span>
+          <button type="submit" className={styles.addBtn} disabled={!canSubmit}>
+            <span>Añadir</span>
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

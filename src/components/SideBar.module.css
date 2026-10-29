@@ -1,178 +1,205 @@
+/* Barra lateral: material translúcido claro, como en macOS */
 .sidebar {
+  position: sticky;
+  top: 0;
   display: flex;
-  flex: 0 0 248px;
   flex-direction: column;
-  min-height: 100vh;
-  padding: 28px 16px 20px;
-  background: #f7f1e8;
-  border-right: 1px solid #eee5d8;
-  color: #4b443c;
+  gap: 26px;
+  height: 100dvh;
+  padding: 20px 12px 14px;
+  overflow-y: auto;
+  border-right: 0.5px solid var(--line-strong);
+  background: var(--material-side);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  color: var(--ink);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 11px;
-  margin: 0 8px 48px;
-  color: #27231f;
+  gap: 10px;
+  padding: 0 8px;
+  color: var(--ink);
+  font-family: var(--font-display);
   font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: -0.4px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
   text-decoration: none;
-}
-
-.brandMark {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border-radius: 12px;
-  background: #c26127;
-  color: white;
-  font-family: Georgia, serif;
-  font-size: 1.25rem;
-}
-
-.sectionLabel {
-  margin: 0 10px 12px;
-  color: #9a8e7d;
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 1.1px;
 }
 
 .navList {
   display: grid;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: 1px;
 }
 
 .navLink {
+  position: relative;
   display: flex;
-  min-height: 44px;
+  min-height: 34px;
   align-items: center;
-  gap: 12px;
-  padding: 0 11px;
-  border-radius: 10px;
-  color: #71685e;
-  font-size: 0.88rem;
-  font-weight: 600;
+  gap: 10px;
+  padding: 0 10px;
+  border-radius: var(--radius-s);
+  color: var(--ink-2);
+  font-size: 0.92rem;
+  font-weight: 500;
   text-decoration: none;
   transition: background-color 150ms ease, color 150ms ease;
 }
 
-.navLink:hover {
-  background: #eee5d8;
-  color: #302a24;
-}
-
-.navLink:focus-visible,
-.brand:focus-visible {
-  outline: 3px solid #d89b6a;
-  outline-offset: 3px;
+.navLink > * {
+  position: relative;
 }
 
 .navLink svg {
-  width: 19px;
-  height: 19px;
-  flex: 0 0 auto;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.7;
+  flex: none;
+  color: var(--accent);
+}
+
+.navLabel {
+  flex: 1;
+}
+
+.navLink:hover {
+  background: var(--fill);
+}
+
+/* La pastilla solo existe en el elemento activo; su nombre de transición la hace deslizarse */
+.pill {
+  position: absolute !important;
+  inset: 0;
+  display: none;
+  border-radius: var(--radius-s);
+  background: var(--fill-strong);
+  view-transition-name: nav-pill;
+}
+
+.active .pill {
+  display: block;
 }
 
 .active,
 .active:hover {
-  background: #fffaf3;
-  color: #b45420;
-  box-shadow: 0 2px 8px rgb(84 57 32 / 6%);
+  background: transparent;
+  color: var(--ink);
+  font-weight: 600;
 }
 
-.sidebarNote {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: auto 2px 0;
-  padding: 14px 12px;
-  border: 1px solid #eee2d2;
-  border-radius: 12px;
-  background: rgb(255 250 243 / 75%);
+.count {
+  min-width: 20px;
+  color: var(--ink-4);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: right;
 }
 
-.noteIcon {
-  color: #c26127;
-  font-size: 1rem;
+.active .count {
+  color: var(--ink-3);
 }
 
-.sidebarNote p {
-  color: #827667;
-  font-size: 0.76rem;
-  line-height: 1.5;
-}
-
-.navItem {
+/* Cuenta */
+.account {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  border-radius: 12px;
+  gap: 10px;
+  margin-top: auto;
+  padding: 10px 6px 2px;
+  border-top: 0.5px solid var(--line-strong);
+}
+
+.avatar {
+  display: grid;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(#a1a1a6, #7c7c80);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.accountText {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.accountName {
+  overflow: hidden;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accountMail {
+  overflow: hidden;
+  color: var(--ink-3);
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accountBtn {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--ink-3);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.accountBtn:hover {
+  background: var(--fill);
+  color: var(--ink);
+}
+
+.signIn {
+  display: flex;
+  width: 100%;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
   font-size: 0.88rem;
-  font-weight: 500;
-  color: #4b5563;
+  font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: background-color 150ms ease, transform 120ms var(--ease-out);
 }
 
-.navItem:hover {
-  background-color: #f3f4f6;
-  color: #111827;
+.signIn:hover {
+  background: var(--accent-hover);
 }
 
-/* Estado activo cuando la ruta coincide con la página actual */
-.navItem.active {
-  background-color: #e5e7eb; /* Fondo gris/sombra de selección activa */
-  color: #111827;
-  font-weight: 700;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+.signIn:active {
+  transform: scale(0.97);
 }
 
-@media (max-width: 700px) {
+/* Móvil: panel deslizable con resorte */
+@media (max-width: 900px) {
   .sidebar {
-    min-height: 0;
-    flex: 0 0 auto;
-    padding: 14px 16px;
-    border-right: 0;
-    border-bottom: 1px solid #eee5d8;
+    position: fixed;
+    z-index: 40;
+    inset: 0 auto 0 0;
+    width: min(300px, 86vw);
+    background: var(--material-thick);
+    box-shadow: var(--shadow-pop);
+    transform: translateX(-104%);
+    transition: transform var(--spring-slow) var(--spring);
   }
 
-  .brand {
-    margin: 0 0 14px;
-  }
-
-  .sectionLabel,
-  .sidebarNote {
-    display: none;
-  }
-
-  .navList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .navLink {
-    min-height: 38px;
-    gap: 8px;
-    padding: 0 10px;
-    font-size: 0.8rem;
-  }
-
-  .navLink svg {
-    width: 17px;
-    height: 17px;
+  .open {
+    transform: translateX(0);
   }
 }
