@@ -1,154 +1,452 @@
-.card{
-    width: 100%;
-    border-radius: 16px;
-    padding: 18px 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03),0 1px 3px rgba(0, 0, 0, 0.02);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 16px;
-    box-sizing: border-box;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    position: relative;
+/* Ficha de nota: superficie con un tinte suave de su color y profundidad sutil. */
+.card {
+  position: relative;
+  display: flex;
+  min-height: 180px;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 14px 18px;
+  border-radius: var(--radius-l);
+  background: linear-gradient(170deg, var(--tint) 0%, color-mix(in srgb, var(--tint) 35%, var(--surface)) 100%);
+  box-shadow: var(--shadow-1), inset 0 0 0 0.5px rgb(0 0 0 / 6%);
+  view-transition-class: note;
+  transition:
+    transform var(--spring-fast) var(--spring),
+    box-shadow 300ms var(--ease-out),
+    opacity 300ms ease;
 }
 
-.card:hover{
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+@media (hover: hover) {
+  .card:hover {
+    box-shadow: var(--shadow-2), inset 0 0 0 0.5px rgb(0 0 0 / 6%);
+    transform: translateY(-2px);
+  }
+}
+
+.raised {
+  z-index: 5;
 }
 
 /* Encabezado */
-.cardHeader{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.cardHeader {
+  display: flex;
+  min-height: 26px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.statusBadge{
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
+.tag {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  color: var(--tone);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Status type */
-.warning{
-    background-color: rgba(251, 191, 36, 0.3);
-    color: #78350f;
+.tagDot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--dot);
 }
 
-.success{
-    background-color: rgba(52, 211, 153, 0.3);
-    color: #064e3b;
-}
-
-.purple{
-    background-color: rgba(192, 132, 252, 0.3);
-    color: #581c87;
-}
-
-.actions{
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.iconBtn{
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 6px;
-    color: #6b7280;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.iconBtn:hover{
-    background-color: rgba(0, 0, 0, 0.05);
-    color: #111827;
-}
-
-/* Body */
-.cardBody{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.cardTitle{
-    font-size: 1rem;
-    font-weight: 700;
-    color: #111827;
-    margin: 0;
-    line-height: 1.35;
-}
-
-.taskList{
-    list-style:none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.taskItem{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
-    color: #374151;
-}
-
-.checkbox{
-    width: 16px;
-    height: 16px;
-    accent-color: #111827;
-    cursor: pointer;
-}
-
-.completedTask{
-    text-decoration: line-through;
-    color: #9ca3af;
-}
-
-/* Card Footer */
-
-.cardFooter{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 8px;
-    font-size: 0.75rem;
-}
-
-.tag{
-    background-color: rgba(255, 255, 255, 0.6);
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-weight: 600;
-    color: #4b5563;
-}
-
-.timeText {
+.actions {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 4px; 
-  font-size: 0.75rem;
-  color: #6b7280;
+  gap: 2px;
+}
+
+.pinned {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  color: var(--ink-3);
+}
+
+.iconBtn {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-3);
+  transition: background-color 150ms ease, color 150ms ease, transform 120ms var(--ease-out);
+}
+
+.iconBtn:hover,
+.iconBtn[aria-expanded='true'] {
+  background: var(--fill);
+  color: var(--ink);
+}
+
+.iconBtn:active {
+  transform: scale(0.9);
+}
+
+/* Menú contextual: material translúcido que nace del botón */
+.menu {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  right: 0;
+  display: grid;
+  min-width: 190px;
+  padding: 5px;
+  border-radius: 12px;
+  background: var(--material-thick);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: var(--shadow-pop), 0 0 0 0.5px rgb(0 0 0 / 10%);
+  color: var(--ink);
+  transform-origin: top right;
+  animation: menu-in var(--spring-fast) var(--spring);
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: blur(2px);
+  }
+}
+
+.menu button {
+  display: flex;
+  min-height: 30px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.menu button svg {
+  color: var(--ink-3);
+}
+
+.menu button:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.menu button:hover svg {
+  color: #fff;
+}
+
+.menuSep {
+  height: 0.5px;
+  margin: 4px 8px;
+  background: var(--line-strong);
+}
+
+.menu .danger {
+  color: var(--danger);
+}
+
+.menu .danger svg {
+  color: var(--danger);
+}
+
+.menu .danger:hover {
+  background: var(--danger);
+}
+
+/* Cuerpo */
+.cardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.titleBtn {
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  transition: color 150ms ease;
+}
+
+.titleBtn:hover {
+  color: var(--tone);
+}
+
+.untitled {
+  color: var(--ink-4);
   font-weight: 500;
 }
 
+.body {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  white-space: pre-line;
+}
 
-.timeIcon {
-  width: 14px; 
-  height: 14px;
-  stroke-width: 2; 
-  flex-shrink: 0;  
+.taskList {
+  display: grid;
+  gap: 1px;
+}
+
+.taskItem {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px 0;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.checkbox {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.box {
+  display: grid;
+  width: 19px;
+  height: 19px;
+  flex: none;
+  place-items: center;
+  margin-top: -0.5px;
+  border: 1.5px solid color-mix(in srgb, var(--ink-4) 80%, transparent);
+  border-radius: 50%;
+  color: transparent;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 120ms var(--ease-out);
+}
+
+.taskItem:active .box {
+  transform: scale(0.85);
+}
+
+.checkbox:checked + .box {
+  border-color: var(--dot);
+  background: var(--dot);
+  color: #fff;
+  animation: pop var(--spring-fast) var(--spring-bounce);
+}
+
+.checkbox:focus-visible + .box {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.55);
+  }
+}
+
+.completedTask {
+  color: var(--ink-4);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--ink-4) 60%, transparent);
+  transition: color 200ms ease;
+}
+
+.more {
+  padding: 2px 0 0 29px;
+  border: 0;
+  background: none;
+  color: var(--tone);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.more:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Pie */
+.cardFooter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.due,
+.priority,
+.completed {
+  display: inline-flex;
+  min-height: 22px;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border-radius: 999px;
+}
+
+.calm {
+  background: rgb(255 255 255 / 70%);
+  color: var(--ink-3);
+}
+
+.soon {
+  background: rgb(255 149 0 / 14%);
+  color: var(--warn);
+}
+
+.late {
+  background: rgb(255 59 48 / 12%);
+  color: var(--danger);
+}
+
+.priority {
+  background: rgb(255 255 255 / 70%);
+  color: var(--ink-3);
+}
+
+.completed {
+  background: rgb(52 199 89 / 14%);
+  color: var(--ok);
+  animation: fade-up var(--spring-fast) var(--spring);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink-3);
+}
+
+.ring {
+  width: 15px;
+  height: 15px;
+  transform: rotate(-90deg);
+}
+
+.ring circle {
+  fill: none;
+  stroke-width: 3;
+}
+
+.ring circle:first-child {
+  stroke: color-mix(in srgb, var(--dot) 22%, transparent);
+}
+
+.ring circle:last-child {
+  stroke: var(--dot);
+  stroke-dasharray: 100;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--spring-slow) var(--spring);
+}
+
+.doneBtn {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  place-items: center;
+  border: 1.5px solid color-mix(in srgb, var(--ink-4) 70%, transparent);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 60%);
+  color: var(--ink-4);
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    transform 120ms var(--ease-out);
+}
+
+.doneBtn svg {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.doneBtn:hover svg {
+  opacity: 1;
+}
+
+.doneBtn:active {
+  transform: scale(0.88);
+}
+
+.doneBtn[aria-pressed='true'] {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fff;
+  animation: pop var(--spring-fast) var(--spring-bounce);
+}
+
+.doneBtn[aria-pressed='true'] svg {
+  opacity: 1;
+}
+
+/* Completada: la ficha retrocede visualmente */
+.done {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 0.5px var(--line-strong);
+}
+
+.done .cardTitle .titleBtn {
+  color: var(--ink-3);
+}
+
+.done .tag {
+  color: var(--ink-4);
+}
+
+.done .tagDot {
+  background: var(--ink-4);
 }

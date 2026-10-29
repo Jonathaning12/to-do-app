@@ -1,0 +1,471 @@
+/* El <dialog> es transparente: la hoja (.panel) lleva fondo, radio y sombra,
+   así la View Transition transforma la ficha en la hoja completa. */
+.dialog {
+  width: min(620px, calc(100vw - 24px));
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0%);
+  backdrop-filter: blur(0);
+  transition:
+    background-color 300ms var(--ease-out),
+    backdrop-filter 300ms var(--ease-out),
+    overlay 300ms allow-discrete,
+    display 300ms allow-discrete;
+}
+
+.dialog[open]::backdrop {
+  background: rgb(0 0 0 / 22%);
+  backdrop-filter: blur(6px);
+}
+
+@starting-style {
+  .dialog[open]::backdrop {
+    background: rgb(0 0 0 / 0%);
+    backdrop-filter: blur(0);
+  }
+}
+
+/* Sin View Transitions, la hoja aparece con su propio resorte */
+@supports not (view-transition-name: none) {
+  .dialog[open] .panel {
+    animation: sheet-in var(--spring-fast) var(--spring);
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+}
+
+.panel {
+  display: flex;
+  max-height: calc(100dvh - 48px);
+  flex-direction: column;
+  overflow: auto;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow-pop), 0 0 0 0.5px rgb(0 0 0 / 8%);
+  view-transition-class: note;
+}
+
+/* Parte superior con el tinte de la nota */
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 22px 18px;
+  background: linear-gradient(var(--tint), color-mix(in srgb, var(--tint) 40%, var(--surface)));
+  transition: background-color 300ms var(--ease-out);
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.inks {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.inkOption {
+  position: relative;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  cursor: pointer;
+}
+
+.inkOption input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.inkOption span:not(:global(.visually-hidden)) {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 15%);
+  transition: transform var(--spring-fast) var(--spring-bounce), box-shadow 200ms ease;
+}
+
+.inkOption:hover span:not(:global(.visually-hidden)) {
+  transform: scale(1.12);
+}
+
+.inkOption input:checked + span {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px currentColor;
+  color: var(--dot);
+  transform: scale(1);
+}
+
+.inkOption input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.close {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--fill);
+  color: var(--ink-3);
+  transition: background-color 150ms ease, transform 120ms var(--ease-out);
+}
+
+.close:hover {
+  background: var(--fill-strong);
+  color: var(--ink);
+}
+
+.close:active {
+  transform: scale(0.9);
+}
+
+.title,
+.body,
+.taskText,
+.addTask input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+}
+
+.title::placeholder,
+.body::placeholder,
+.addTask input::placeholder {
+  color: var(--ink-4);
+  opacity: 1;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.15;
+}
+
+.body {
+  min-height: 60px;
+  resize: vertical;
+  color: var(--ink-2);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 12px;
+  border-top: 0.5px solid var(--line-strong);
+}
+
+.tasksTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+  color: var(--tone);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.tasksTitle span {
+  color: var(--ink-4);
+  font-weight: 500;
+  text-transform: none;
+}
+
+.taskRow {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 12px;
+}
+
+.check {
+  position: relative;
+  display: grid;
+  flex: none;
+  cursor: pointer;
+}
+
+.check input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.check > span[aria-hidden] {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1.5px solid var(--ink-4);
+  border-radius: 50%;
+  color: transparent;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.check input:checked + span {
+  border-color: var(--dot);
+  background: var(--dot);
+  color: #fff;
+  animation: pop var(--spring-fast) var(--spring-bounce);
+}
+
+.check input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.6);
+  }
+}
+
+.taskText {
+  min-height: 32px;
+  font-size: 1rem;
+}
+
+.taskDone {
+  color: var(--ink-4);
+}
+
+.taskRemove {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-4);
+  opacity: 0;
+  transition: opacity 150ms ease, background-color 150ms ease;
+}
+
+.taskRow:hover .taskRemove,
+.taskRemove:focus-visible {
+  opacity: 1;
+}
+
+.taskRemove:hover {
+  background: var(--fill);
+  color: var(--ink);
+}
+
+@media (hover: none) {
+  .taskRemove {
+    opacity: 1;
+  }
+}
+
+.addTask {
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink-4);
+}
+
+.addIcon {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  place-items: center;
+  border: 1.5px dashed var(--ink-4);
+  border-radius: 50%;
+}
+
+.addTask input {
+  font-size: 1rem;
+}
+
+/* Propiedades */
+.props {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 22px 4px;
+}
+
+.prop {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.prop > span {
+  color: var(--ink-3);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.prop select,
+.prop input {
+  height: 34px;
+  min-width: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius-s);
+  outline: none;
+  background: var(--fill);
+  font-size: 0.9rem;
+  transition: box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.prop select:focus-visible,
+.prop input:focus-visible {
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--focus);
+}
+
+.toggles {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.toggle {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fill);
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 200ms ease, color 200ms ease, transform 120ms var(--ease-out);
+}
+
+.toggle:hover {
+  background: var(--fill-strong);
+}
+
+.toggle:active {
+  transform: scale(0.96);
+}
+
+.toggle[aria-pressed='true'] {
+  background: var(--accent);
+  color: #fff;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px 18px;
+}
+
+.delete {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--danger);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.delete:hover {
+  background: var(--danger-soft);
+}
+
+.saved {
+  margin-left: auto;
+  color: var(--ink-4);
+  font-size: 0.8rem;
+}
+
+.doneBtn {
+  min-height: 34px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: background-color 150ms ease, transform 120ms var(--ease-out);
+}
+
+.doneBtn:hover {
+  background: var(--accent-hover);
+}
+
+.doneBtn:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 560px) {
+  .dialog {
+    width: 100vw;
+    margin: auto 0 0;
+  }
+
+  .panel {
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .props {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .props .prop:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .saved {
+    display: none;
+  }
+
+  .doneBtn {
+    margin-left: auto;
+  }
+}
